@@ -77,7 +77,7 @@ function Home() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const prompt = `The user is in grade ${grade}, has a GPA of ${gpa}, lives in ${location}, and has additional information: ${additionalInfo}. Please provide a list of college recommendations separated by commas.`;
+    const prompt = `The user is in grade ${grade}, has a GPA of ${gpa}, lives in ${location}, and has additional information: ${additionalInfo}. Please provide a list of college recommendations separated by commas with no other information.`;
   
     try {
       const response = await fetch('https://api.openai.com/v1/engines/text-davinci-002/completions', {
@@ -124,6 +124,7 @@ function Home() {
             onChange={handleGradeChange}
             style={{width:"100px",height:"60px"}}
           >
+          <MenuItem value="7-8">7-8</MenuItem>
           <MenuItem value="9">9</MenuItem>
           <MenuItem value="10">10</MenuItem>
           <MenuItem value="11">11</MenuItem>
@@ -139,7 +140,8 @@ function Home() {
             onChange={handleGPAChange}
             style={{width:"100px",height:"60px"}}
           >
-          <MenuItem value="3.0 or lower">3.0 or lower</MenuItem>
+          <MenuItem value="2.5 or lower">2.5 or lower</MenuItem>
+          <MenuItem value="2.5 - 3.0">2.5 - 3.0</MenuItem>
           <MenuItem value="3.0 - 3.5">3.0 - 3.5</MenuItem>
           <MenuItem value="3.5 - 4.0">3.5 - 4.0</MenuItem>
           <MenuItem value="4.0 or higher">4.0 or higher</MenuItem>
@@ -151,12 +153,14 @@ function Home() {
           value={location}
           onChange={handleLocationChange}
           style={{ marginTop: '1rem' }}
+          helperText="Accurate address will improve the result"
         />
         <TextField
-          label="Additional Information"
+          label="Additional Information / Requirements"
           variant="outlined"
           value={additionalInfo}
           onChange={handleAdditionalInfoChange}
+          style={{width:"350px"}}
         />
         <Button type="submit" variant="contained" color="primary">
           Get Recommendations
