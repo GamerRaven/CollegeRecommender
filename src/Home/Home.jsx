@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Grid from '@mui/material/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
@@ -55,7 +54,9 @@ function Home() {
   const [grade, setGrade] = useState('');
   const [gpa, setGPA] = useState('');
   const [location, setLocation] = useState('');
-  const [additionalInfo, setAdditionalInfo] = useState('');
+  const [major, setMajor] = useState('');
+  const [hobby, setHobby] = useState('');
+  const [achievements, setAchievements] = useState('');
 
   const handleGradeChange = (event) => {
     setGrade(event.target.value);
@@ -69,15 +70,31 @@ function Home() {
     setLocation(event.target.value);
   };
 
-  const handleAdditionalInfoChange = (event) => {
-    setAdditionalInfo(event.target.value);
+  const handleMajorChange = (event) => {
+    setMajor(event.target.value);
+  };
+
+  const handleHobbyChange = (event) => {
+    setHobby(event.target.value);
+  };
+
+  const handleAchievements = (event) => {
+    setAchievements(event.target.value);
   };
 
   const [recommendationResult, setRecommendationResult] = useState([]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const prompt = `The user is in grade ${grade}, has a GPA of ${gpa}, lives in ${location}, and has additional information: ${additionalInfo}. Please provide a list of college recommendations separated by commas with no other information.`;
+
+    const prompt = `The user:
+    - is in grade ${grade}
+    - has a GPA of ${gpa}
+    - has the following academic achievements: ${achievements}
+    - has a hobby/interest in: ${hobby}` +
+    (location ? `\n- prefers a school at ${location}` : '') +
+    (major ? `\n- would like to study ${major}` : '') +
+    `\nPlease provide a list of college recommendations separated by commas with no other text.`;    
   
     try {
       const response = await fetch('https://api.openai.com/v1/engines/text-davinci-002/completions', {
@@ -148,19 +165,35 @@ function Home() {
         </Select>
         </FormControl>
         <TextField
-          label="Location"
+          label="Prefered Location"
           variant="outlined"
           value={location}
           onChange={handleLocationChange}
           style={{ marginTop: '1rem' }}
-          helperText="Accurate address will improve the result"
+          helperText="Leave blank if none"
         />
         <TextField
-          label="Additional Information / Requirements"
+          label="Intended Major"
           variant="outlined"
-          value={additionalInfo}
-          onChange={handleAdditionalInfoChange}
-          style={{width:"350px"}}
+          value={major}
+          onChange={handleMajorChange}
+          style={{ marginTop: '1rem' }}
+          helperText="Leave blank if none"
+        />
+        <TextField
+          label="Academic Achievements"
+          variant="outlined"
+          value={achievements}
+          onChange={handleAchievements}
+          style={{ marginTop: '1rem' }}
+          helperText="Competitions, Standardized Testing Score, etc"
+        />
+        <TextField
+          label="Hobbies / Interests"
+          variant="outlined"
+          value={hobby}
+          onChange={handleHobbyChange}
+          style={{ marginTop: '1rem' }}
         />
         <Button type="submit" variant="contained" color="primary">
           Get Recommendations
