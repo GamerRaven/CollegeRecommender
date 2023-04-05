@@ -259,7 +259,7 @@ function Home() {
       borderRadius: '4px',
       maxWidth: '800px',
       margin: '1rem auto',
-      marginTop: "20px",
+      marginTop: "25px",
     }}
   >
     <Typography variant="h6">College Recommendations:</Typography>
