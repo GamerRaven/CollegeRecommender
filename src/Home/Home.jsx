@@ -146,7 +146,7 @@ function Home() {
         College Recommender
       </Typography>
     </div>
-      <form className={classes.form} onSubmit={handleSubmit}>
+      <form className={classes.form} onSubmit={handleSubmit} style={{marginTop:"30px"}}>
         <FormControl variant="outlined" style={{marginRight:"12px"}}>
           <InputLabel id="grade-label">Grade</InputLabel>
           <Select
@@ -242,6 +242,7 @@ function Home() {
       borderRadius: '4px',
       maxWidth: '800px',
       margin: '1rem auto',
+      marginTop: "25px",
     }}
   >
     <Typography variant="h6">College Recommendations:</Typography>
