@@ -8,6 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -147,7 +149,17 @@ function Home() {
       </Typography>
     </div>
       <form className={classes.form} onSubmit={handleSubmit} style={{marginTop:"30px"}}>
-        <FormControl variant="outlined" style={{marginRight:"12px"}}>
+      <Box
+      sx={{
+        marginTop: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+      >
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+        <FormControl variant="outlined">
           <InputLabel id="grade-label">Grade</InputLabel>
           <Select
             labelId="grade-label"
@@ -163,7 +175,9 @@ function Home() {
           <MenuItem value="12">12</MenuItem>
           </Select>
         </FormControl>
-        <FormControl variant="outlined" style={{marginLeft:"12px"}}>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+        <FormControl variant="outlined">
           <InputLabel id="gpa-label">GPA</InputLabel>
           <Select
             labelId="gpa-label"
@@ -179,6 +193,9 @@ function Home() {
           <MenuItem value="4.0 or higher">4.0 or higher</MenuItem>
         </Select>
         </FormControl>
+        </Grid>
+      </Grid>
+      </Box>
         <TextField
           label="Prefered Location"
           variant="outlined"
@@ -242,7 +259,7 @@ function Home() {
       borderRadius: '4px',
       maxWidth: '800px',
       margin: '1rem auto',
-      marginTop: "25px",
+      marginTop: "20px",
     }}
   >
     <Typography variant="h6">College Recommendations:</Typography>
