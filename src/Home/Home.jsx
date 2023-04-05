@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -57,6 +58,10 @@ function Home() {
   const [major, setMajor] = useState('');
   const [hobby, setHobby] = useState('');
   const [achievements, setAchievements] = useState('');
+  const [gradeError, setGradeError] = useState(false);
+  const [gpaError, setGpaError] = useState(false);
+  const [hobbyError, setHobbyError] = useState(false);
+
 
   const handleGradeChange = (event) => {
     setGrade(event.target.value);
@@ -84,8 +89,18 @@ function Home() {
 
   const [recommendationResult, setRecommendationResult] = useState([]);
 
+  const [showError, setShowError] = useState(false);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setGradeError(!grade);
+    setGpaError(!gpa);
+    setHobbyError(!hobby);
+
+    if (!grade || !gpa || !hobby) {
+      return;
+    }
 
     const prompt = `The user:
     - is in grade ${grade}
@@ -132,7 +147,7 @@ function Home() {
       </Typography>
     </div>
       <form className={classes.form} onSubmit={handleSubmit}>
-        <FormControl variant="outlined">
+        <FormControl variant="outlined" style={{marginRight:"12px"}}>
           <InputLabel id="grade-label">Grade</InputLabel>
           <Select
             labelId="grade-label"
@@ -148,7 +163,7 @@ function Home() {
           <MenuItem value="12">12</MenuItem>
           </Select>
         </FormControl>
-        <FormControl variant="outlined" sx={{ ml:200 }}>
+        <FormControl variant="outlined" style={{marginLeft:"12px"}}>
           <InputLabel id="gpa-label">GPA</InputLabel>
           <Select
             labelId="gpa-label"
@@ -195,6 +210,25 @@ function Home() {
           onChange={handleHobbyChange}
           style={{ marginTop: '1rem' }}
         />
+        {(gradeError || gpaError || hobbyError) && (
+          <div style={{ marginTop: '1rem' }}>
+            {gradeError && (
+              <FormHelperText error>
+                Please fill in the Grade field.
+              </FormHelperText>
+            )}
+            {gpaError && (
+              <FormHelperText error>
+                Please fill in the GPA field.
+              </FormHelperText>
+            )}
+            {hobbyError && (
+              <FormHelperText error>
+                Please fill in the Hobbies field.
+              </FormHelperText>
+            )}
+          </div>
+        )}
         <Button type="submit" variant="contained" color="primary">
           Get Recommendations
         </Button>
