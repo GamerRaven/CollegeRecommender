@@ -10,6 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -63,7 +64,8 @@ function Home() {
   const [gradeError, setGradeError] = useState(false);
   const [gpaError, setGpaError] = useState(false);
   const [hobbyError, setHobbyError] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const [lastSubmitTime, setLastSubmitTime] = useState(0);
 
   const handleGradeChange = (event) => {
     setGrade(event.target.value);
@@ -96,13 +98,24 @@ function Home() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    setLoading(true);
     setGradeError(!grade);
     setGpaError(!gpa);
     setHobbyError(!hobby);
 
     if (!grade || !gpa || !hobby) {
+      setLoading(false);
       return;
     }
+
+    const now = Date.now();
+    const cooldownInSeconds = 10 * 1000;
+    if (now - lastSubmitTime < cooldownInSeconds) {
+      setLoading(false);
+      alert('Please wait for 10 seconds between requests.');
+      return;
+    }
+    setLastSubmitTime(now);
 
     const prompt = `The user:
     - is in grade ${grade}
@@ -138,6 +151,8 @@ function Home() {
            
     } catch (error) {
       console.error('Error fetching recommendations:', error);
+    } finally {
+      setLoading(false); // Add this line
     }
   };
    
@@ -250,7 +265,11 @@ function Home() {
           Get Recommendations
         </Button>
   </form>
-  
+  {loading && (
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+        <CircularProgress />
+      </div>
+    )}
   <div
     style={{
       marginTop: '1rem',
