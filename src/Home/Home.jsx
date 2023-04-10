@@ -134,7 +134,7 @@ function Home() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'YOUR API KEY',
+          'Authorization': 'Bearer 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',
         },
         body: JSON.stringify({
           prompt: prompt,
