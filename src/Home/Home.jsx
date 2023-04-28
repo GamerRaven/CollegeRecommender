@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   responseBox: {
-    // Add your custom styles for the response box
     marginTop: theme.spacing(2),
     padding: theme.spacing(2),
     border: '1px solid #ccc',
@@ -155,7 +154,7 @@ function Home() {
     } catch (error) {
       console.error('Error fetching recommendations:', error);
     } finally {
-      setLoading(false); // Add this line
+      setLoading(false);
     }
   };
    
